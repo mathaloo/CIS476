@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  flex-flow: column;
+  background-color: #FFFDD0;
+}
+h1{
+    text-align: center;
+    text-wrap: black;
+    font-size: 2.5em;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color:rgb(59, 59, 255);
+}
+table{
+    margin-left: auto;
+    margin-right: auto;
+    border-color: black;
+    text-align: left;
+    padding: 30px;
+}
+#main{
+  margin:10px;
+  padding:20px;
+  text-align: left;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  min-width: min(400px,100vw);
+  height: auto;
+}

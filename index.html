@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Start Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!--
+
+    -->
+    <div id="main">
+        <h1>MyPass</h1><hr>
+        <h2>Login:</h2>
+        <form action="homepage.php" method="post">           
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value=""><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" value=""><br>
+
+            <input type="submit" value="Submit"><br>
+        </form> 
+        <hr>
+        <h2>Create New Account:</h2>
+        <form action="newUser.php" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="newUsername" name="newUsername" value=""><br>
+
+            <label for="password">Password:</label>
+            <input type="newPassword" id="newPassword" name="newPassword" value=""><br>
+
+            <label for="rep_password">Repeat Password:</label>
+            <input type="rep_password" id="rep_password" name="rep_password" value=""><br>
+
+            <input type="submit" value="Create New Account"><br>        
+        </form>
+        <hr>
+        <a href="forgotPasswordHandler.html">Forgot Password</a>        
+    </div>
+</body>
+</html>
