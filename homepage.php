@@ -32,12 +32,12 @@
     } catch(PDOException $e) {
       echo "Connection failed: " . $e->getMessage();
     }  
-    
+
+    echo "<br>".$pass."here2<br>";
 
     // For successful login:
     // run the oberserver pattern with the username and password as arguments
     // On logout, delete the session
-
     echo '
         <div id="main">
             <h1>MyPass</h1><hr>
@@ -57,25 +57,48 @@
         </div>
     ';
     
-    // For New Logins: 
-    // redirect to a form asking for 3 security questions
-    // create the row in the database
-    // redirect to index.html
-    
+    // For Unsuccessful Logins
+    echo '
+        <div id="main">
+            <h1>MyPass</h1><hr>
+            <h2>Unsuccessful Login</h2>
+            <hr>
+                <a href="index.html">Login Screen</a> 
+            <hr>
+            <h2>Create New Account:</h2>
+                <form action="newUser.php" method="post">
+                    <label for="username">Username:</label>
+                    <input type="text" id="newUsername" name="newUsername" value=""><br>
+
+                    <label for="password">Password:</label>
+                    <input type="newPassword" id="newPassword" name="newPassword" value=""><br>
+
+                    <label for="rep_password">Repeat Password:</label>
+                    <input type="rep_password" id="rep_password" name="rep_password" value=""><br>
+
+                    <input type="submit" value="Create New Account"><br>        
+                </form>
+            <hr>
+            <a href="forgotPasswordHandler.html">Forgot Password</a> 
+        ';
     ?>
 
     <!--
     example of php class structure:
-    class className{
-        public $temp;
-        function set_temp($temp2) {
-          $this->temp = $temp2;
+        class className{
+            public $temp;
+            function set_temp($temp2) {
+              $this->temp = $temp2;
+            }
+            function get_temp() {
+                return $this->temp;
+            }
         }
-        function get_temp() {
-            return $this->temp;
-        }
-    }
 
+    how to make a query and get a row:
+        $user = $conn->query("SELECT * FROM login WHERE username='hayden'")->fetch();
+    how to get a specific column in a row:
+        $pass = $user['masterPassword'];
     How to make query's in PHP:
     https://www.w3schools.com/php/php_mysql_connect.asp 
     -->
