@@ -11,7 +11,6 @@
     <?PHP
     //Mediator
     class UIManager{
-        
         function printTable($query){
             //code here
         }
@@ -19,7 +18,7 @@
             //code here
         }
     }
-
+    //assign variables
     $servername = "localhost";
     $username = htmlspecialchars($_POST['username']);
     $password = htmlspecialchars($_POST['password']); 
@@ -32,8 +31,6 @@
     } catch(PDOException $e) {
       echo "Connection failed: " . $e->getMessage();
     }  
-
-    echo "<br>".$pass."here2<br>";
 
     // For successful login:
     // run the oberserver pattern with the username and password as arguments
