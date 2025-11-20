@@ -27,22 +27,24 @@
           echo "Connection failed: " . $e->getMessage();
         } 
         
-        // check if username exists
+        // if username doesnt't exist
         $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE username=?");
         $login->execute([$newUsername]);
         $login = $login->fetchObject();
         if($login->total == 0 && $newPassword == $rep_password){ // username doesnt exist
-          $login = $conn->prepare("INSERT INTO user (username, masterPassword, secQuestion1Ans, secQuestion2Ans, secQuestion3Ans) VALUES (?,?,'?','?','?')");
+          $login = $conn->prepare("INSERT INTO user (username, masterPassword, secQuestion1Ans, secQuestion2Ans, secQuestion3Ans) VALUES (?,?,?,?,?)");
           $login->execute([$newUsername,$newPassword,$answer1, $answer2, $answer3]);
-          echo '<div id="main"
-                Successful Created new User Account
+          echo '<div id="main">
+                Successful Created New User Account
+                <br>
                 <br>
                 <a href="index.php">Back to Login Page</a> 
                 </div>';
         }
-        else{ //username does exist
-          echo '<div id="main"
+        else{ //username does exist or passwords dont match
+          echo '<div id="main">
                 Username already exists or the Passwords did not match
+                <br>
                 <br>
                 <a href="index.php">Back to Login Page</a> 
                 </div>';

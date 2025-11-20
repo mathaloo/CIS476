@@ -8,6 +8,7 @@
 </head>
 <body>
     <?PHP
+        session_start();
         session_unset();
         session_destroy(); 
     ?>
@@ -43,7 +44,7 @@
 
             <label for="Security Question 2: ">Security Question 2:</label>
             <input type="text" id="answer2" name="answer2" value=""><br>
-            
+
             <label for="Security Question 3: ">Security Question 3:</label>
             <input type="text" id="answer3" name="answer3" value=""><br>
 

@@ -11,6 +11,7 @@
     session_start();
     error_reporting(E_ALL);
     ini_set('display_errors',1);
+     // singleton class
     class User{
         private $username;
         private $password;
@@ -34,8 +35,8 @@
             //code here
         }
     }
-    //assign variables | Singleton 
-    if($_SESSION["user"]){
+    //assign variables | singleton implmentation
+    if(!isset($_SESSION["user"])){
         $_SESSION["user"] = new User(htmlspecialchars($_POST['username']),htmlspecialchars($_POST['password']));
     }
     // Create connection to database
@@ -96,6 +97,15 @@
 
                     <label for="rep_password">Repeat Password:</label>
                     <input type="rep_password" id="rep_password" name="rep_password" value=""><br>
+
+                    <label for="Security Question 1: ">Security Question 1:</label>
+                    <input type="text" id="answer1" name="answer1" value=""><br>
+
+                    <label for="Security Question 2: ">Security Question 2:</label>
+                    <input type="text" id="answer2" name="answer2" value=""><br>
+
+                    <label for="Security Question 3: ">Security Question 3:</label>
+                    <input type="text" id="answer3" name="answer3" value=""><br>
 
                     <input type="submit" value="Create New Account"><br>        
                 </form>
