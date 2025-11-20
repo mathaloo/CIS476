@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <?PHP
+        session_unset();
+        session_destroy(); 
+    ?>
     <!--
 
     -->
@@ -33,6 +37,15 @@
 
             <label for="rep_password">Repeat Password:</label>
             <input type="rep_password" id="rep_password" name="rep_password" value=""><br>
+
+            <label for="Security Question 1: ">Security Question 1:</label>
+            <input type="text" id="answer1" name="answer1" value=""><br>
+
+            <label for="Security Question 2: ">Security Question 2:</label>
+            <input type="text" id="answer2" name="answer2" value=""><br>
+            
+            <label for="Security Question 3: ">Security Question 3:</label>
+            <input type="text" id="answer3" name="answer3" value=""><br>
 
             <input type="submit" value="Create New Account"><br>        
         </form>

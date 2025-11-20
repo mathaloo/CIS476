@@ -5,24 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <?PHP
+    session_start();
+    error_reporting(E_ALL);
+    ini_set('display_errors',1);
+    class User{
+        private $username;
+        private $password;
+        function __construct($u, $p){
+            $this->username = $u;
+            $this->password = $p;
+        }
+        function getUsername(){
+            return $this->username;
+        }
+        function getPassword(){
+            return $this->password;
+        }
+    }
     //Mediator
     class UIManager{
-        function printTable($query){
+        function printTable(){
             //code here
         }
-        function printTable_unmaskElement($query, $elementToUnmask){
+        function printTable_unmaskElement($elementToUnmask){
             //code here
         }
     }
-    //assign variables
-    $servername = "localhost";
-    $username = htmlspecialchars($_POST['username']);
-    $password = htmlspecialchars($_POST['password']); 
-    // Create connection
+    //assign variables | Singleton 
+    if($_SESSION["user"]){
+        $_SESSION["user"] = new User(htmlspecialchars($_POST['username']),htmlspecialchars($_POST['password']));
+    }
+    // Create connection to database
     try {
       $conn = new PDO("sqlite:myPass.db");
       // set the PDO error mode to exception
@@ -35,6 +51,13 @@
     // For successful login:
     // run the oberserver pattern with the username and password as arguments
     // On logout, delete the session
+
+    $login = $conn->prepare("SELECT * FROM user WHERE username=?");
+    $login->execute([$_SESSION["user"]->getUsername()]);
+    $login = $login->fetch();     
+
+    if($_SESSION["user"]->getUsername() == $login['username'] && $_SESSION["user"]->getPassword() == $login['masterPassword'])
+    {
     echo '
         <div id="main">
             <h1>MyPass</h1><hr>
@@ -42,7 +65,7 @@
 
             <hr>
         ';
-    //echo output of observer pattern here.
+    //echo output of observer pattern here | TODO
     echo '
         <h2>New Item:</h2>
             <form action="#.php" method="post">
@@ -50,17 +73,18 @@
                 <input type="submit" value="Create New Item"><br>        
             </form>
             <hr>
-            <a href="index.html">Logout</a>              
+            <a href="index.php">Logout</a>              
         </div>
-    ';
-    
+    '; 
+    }
     // For Unsuccessful Logins
+    else{
     echo '
         <div id="main">
             <h1>MyPass</h1><hr>
             <h2>Unsuccessful Login</h2>
             <hr>
-                <a href="index.html">Login Screen</a> 
+                <a href="index.php">Login Screen</a> 
             <hr>
             <h2>Create New Account:</h2>
                 <form action="newUser.php" method="post">
@@ -77,7 +101,8 @@
                 </form>
             <hr>
             <a href="forgotPasswordHandler.html">Forgot Password</a> 
-        ';
+        ';        
+    }
     ?>
 
     <!--
