@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <?PHP
+    session_start();
+    error_reporting(E_ALL);
+    ini_set('display_errors',1);
+    ?>
+    <div id="main">
+        <h1>MyPass</h1>
+        <hr> 
+        <h2>New Login:</h2>        
+        <form action="saveItem.php" method="post">
+            <input type="hidden" name="type" id="type" value="login">
+
+            <label for="">siteName:</label>
+            <input type="text" id="siteName" name="siteName" maxlength="30" value=""><br>
+
+            <label for="">username:</label>
+            <input type="text" id="username" name="username" maxlength="20" value=""><br>
+
+            <label for="">password:</label>
+            <input type="text" id="password" name="password" maxlength="20" value=""><br>
+
+            <label for="">url:</label>
+            <input type="text" id="url" name="url" maxlength="75" value=""><br>
+
+            <input type="submit" value="Submit New Login"><br>        
+        </form>
+    </div>
+</body>
+</html>

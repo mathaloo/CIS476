@@ -28,7 +28,7 @@
         } 
         
         // if username doesnt't exist
-        $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE u_User=?");
+        $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE username=?");
         $login->execute([$newUsername]);
         $login = $login->fetchObject();
         if($login->total == 0 && $newPassword == $rep_password){ // username doesnt exist
