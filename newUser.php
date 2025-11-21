@@ -28,11 +28,11 @@
         } 
         
         // if username doesnt't exist
-        $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE username=?");
+        $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE u_User=?");
         $login->execute([$newUsername]);
         $login = $login->fetchObject();
         if($login->total == 0 && $newPassword == $rep_password){ // username doesnt exist
-          $login = $conn->prepare("INSERT INTO user (username, masterPassword, secQuestion1Ans, secQuestion2Ans, secQuestion3Ans) VALUES (?,?,?,?,?)");
+          $login = $conn->prepare("INSERT INTO user (username, masterPassword, SQA1, SQA2, SQA3) VALUES (?,?,?,?,?)");
           $login->execute([$newUsername,$newPassword,$answer1, $answer2, $answer3]);
           echo '<div id="main">
                 Successful Created New User Account

@@ -26,15 +26,6 @@
             return $this->password;
         }
     }
-    //Mediator
-    class UIManager{
-        function printTable(){
-            //code here
-        }
-        function printTable_unmaskElement($elementToUnmask){
-            //code here
-        }
-    }
     //assign variables | singleton implmentation
     if(!isset($_SESSION["user"])){
         $_SESSION["user"] = new User(htmlspecialchars($_POST['username']),htmlspecialchars($_POST['password']));
@@ -53,7 +44,7 @@
     // run the oberserver pattern with the username and password as arguments
     // On logout, delete the session
 
-    $login = $conn->prepare("SELECT * FROM user WHERE username=?");
+    $login = $conn->prepare("SELECT * FROM user WHERE u_User=?");
     $login->execute([$_SESSION["user"]->getUsername()]);
     $login = $login->fetch();     
 
@@ -128,7 +119,7 @@
         }
 
     how to make a query and get a row:
-        $user = $conn->query("SELECT * FROM login WHERE username='hayden'")->fetch();
+        $user = $conn->query("SELECT * FROM login WHERE u_User")->fetch();
     how to get a specific column in a row:
         $pass = $user['masterPassword'];
     How to make query's in PHP:
