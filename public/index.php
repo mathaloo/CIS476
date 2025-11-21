@@ -46,9 +46,7 @@
                 //assign variables | singleton implmentation
                 if(!isset($_SESSION["user"])){
                     $_SESSION["user"] = new User($login['username'], $login['masterPassword']);
-                    echo "here";
                     header("location: homepage.php");
-                    echo "here2";
                     die();
                 }
             } else {

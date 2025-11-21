@@ -27,7 +27,7 @@
           echo "Connection failed: " . $e->getMessage();
         } 
         
-        // if username doesnt't exist
+        // if username doesn't exist
         $login = $conn->prepare("SELECT COUNT(*) AS `total` FROM user WHERE username=?");
         $login->execute([$newUsername]);
         $login = $login->fetchObject();

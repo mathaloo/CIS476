@@ -46,6 +46,9 @@
         $login = $conn->prepare("INSERT INTO Secure_Notes (noteName, note, u_User) VALUES (?,?,?)");
         $login->execute([$_POST['noteName'],$_POST['note'],$_SESSION["user"]->getUsername()]);
     }
+    header("location: homepage.php");
+    die();
     ?>
+    <a href="homepage.php">If you do not get redirected to the homepage, click here</a>
 </body>
 </html>
