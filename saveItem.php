@@ -41,7 +41,7 @@
         $login->execute([$_POST['idNum'],$_POST['idType'],$_POST['expiration'], $_SESSION["user"]->getUsername()]);
     }else if($table == "Credit_Card"){
         $login = $conn->prepare("INSERT INTO Credit_Card (cardNum, cvv, nameOnCard, expiration, zip, u_User) VALUES (?,?,?,?,?,?)");
-        $login->execute([$_POST['siteName'],$_POST['cardNum'],$_POST['cvv'], $_POST['expiration'], $_POST['zip'], $_SESSION["user"]->getUsername()]);
+        $login->execute([$_POST['cardNum'],$_POST['cvv'], $_POST['nameOnCard'],$_POST['expiration'], $_POST['zip'], $_SESSION["user"]->getUsername()]);
     }else if($table == "Secure_Notes"){
         $login = $conn->prepare("INSERT INTO Secure_Notes (noteName, note, u_User) VALUES (?,?,?)");
         $login->execute([$_POST['noteName'],$_POST['note'],$_SESSION["user"]->getUsername()]);
