@@ -43,12 +43,10 @@ class User{
             if(htmlspecialchars($_POST['username']) == $login['username'] 
                && htmlspecialchars($_POST['password']) == $login['masterPassword']){
                 //assign variables | singleton implmentation
-                
                 $_SESSION['username'] = $_POST['username'];
                 $_SESSION['password'] = $_POST['password'];
                 header("location: homepage.php");
                 exit();
-                
             } 
             else {
                 echo "
@@ -84,7 +82,6 @@ class User{
                 Successful Created New User Account
                 <br>
                 <br>
-                <a href="index.php">Back to Login Page</a> 
                 </div>';
         }
         else{ //username does exist or passwords dont match
