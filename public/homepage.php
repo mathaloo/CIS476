@@ -12,6 +12,7 @@
     error_reporting(E_ALL);
     ini_set('display_errors',1);
     require '../src/pswdGenerator.php';
+    require '../src/user.php';
     // Create connection to database
     try {
       $conn = new PDO("sqlite:../myPass.db");

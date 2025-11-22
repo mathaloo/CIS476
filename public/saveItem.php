@@ -11,7 +11,8 @@
     error_reporting(E_ALL);
     ini_set('display_errors',1);
     $table = htmlspecialchars($_POST['type']);
-    
+    include '../src/user.php';
+    $u = User::getInstance();
     try {
       $conn = new PDO("sqlite:../myPass.db");
       // set the PDO error mode to exception
@@ -22,16 +23,16 @@
     } 
     if($table == "login"){
         $login = $conn->prepare("INSERT INTO login (siteName, username, password, url, u_User) VALUES (?,?,?,?,?)");
-        $login->execute([$_POST['siteName'],$_POST['username'],$_POST['password'], $_POST['url'], $_SESSION["user"]->getUsername()]);
+        $login->execute([$_POST['siteName'],$_POST['username'],$_POST['password'], $_POST['url'], $u->getUsername()]);
     }else if($table == "Identification"){
         $login = $conn->prepare("INSERT INTO Identification (idNum, type, expiration, u_User) VALUES (?,?,?,?)");
-        $login->execute([$_POST['idNum'],$_POST['idType'],$_POST['expiration'], $_SESSION["user"]->getUsername()]);
+        $login->execute([$_POST['idNum'],$_POST['idType'],$_POST['expiration'], $u->getUsername()]);
     }else if($table == "Credit_Card"){
         $login = $conn->prepare("INSERT INTO Credit_Card (cardNum, cvv, nameOnCard, expiration, zip, u_User) VALUES (?,?,?,?,?,?)");
-        $login->execute([$_POST['cardNum'],$_POST['cvv'], $_POST['nameOnCard'],$_POST['expiration'], $_POST['zip'], $_SESSION["user"]->getUsername()]);
+        $login->execute([$_POST['cardNum'],$_POST['cvv'], $_POST['nameOnCard'],$_POST['expiration'], $_POST['zip'], $u->getUsername()]);
     }else if($table == "Secure_Notes"){
         $login = $conn->prepare("INSERT INTO Secure_Notes (noteName, note, u_User) VALUES (?,?,?)");
-        $login->execute([$_POST['noteName'],$_POST['note'],$_SESSION["user"]->getUsername()]);
+        $login->execute([$_POST['noteName'],$_POST['note'], $u->getUsername()]);
     }
     header("location: homepage.php");
     die();

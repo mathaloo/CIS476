@@ -1,5 +1,4 @@
 <?php
-require_once 'SQHandler.php';
 
 class User{
     private $username;

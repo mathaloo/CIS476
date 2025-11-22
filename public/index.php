@@ -14,7 +14,8 @@
         ini_set('display_errors',1);
         session_unset();
         session_destroy();
-        require_once '../src/user.php';
+        session_start();
+        include '../src/user.php';
         
         $u = User::getInstance();
         if (isset($_POST['signin'])) {
