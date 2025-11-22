@@ -11,20 +11,7 @@
     session_start();
     error_reporting(E_ALL);
     ini_set('display_errors',1);
-    class User{
-        private $username;
-        private $password;
-        public function __construct($u, $p){
-            $this->username = $u;
-            $this->password = $p;
-        }
-        public function getUsername(){
-            return $this->username;
-        }
-        public function getPassword(){
-            return $this->password;
-        }
-    } 
+    require '../src/pswdGenerator.php';
     // Create connection to database
     try {
       $conn = new PDO("sqlite:../myPass.db");
@@ -41,10 +28,32 @@
             <h2>Saved Items</h2>
 
             <hr>
-            <h2>Generate Password
+            <h2>Generated Password:</h2>
         ';
     //echo output of observer pattern here | TODO
-    //Generate Password here | TODO
+    $passwordBuilder = new director();
+    $weakPass = new weakPassword();
+    $medPass = new medPassword();
+    $strongPass = new strongPassword();
+    if(empty($_POST['passType']) || !isset($_POST['passType']) || $_POST['passType'] == 'weakPass'){
+        echo $passwordBuilder->buildPassword($weakPass);
+    }else if($_POST['passType'] == 'medPass'){
+        echo $passwordBuilder->buildPassword($medPass);
+    }else if($_POST['passType'] == 'strongPass'){
+        echo $passwordBuilder->buildPassword($strongPass);
+    }
+    echo "<br><br>";
+    ?>
+        <form action="homepage.php" method="post">
+            <label for="passType">Password Strength:</label>
+            <select name="passType" id="passType">
+                <option value="weakPass">Weak</option>
+                <option value="medPass">Medium</option>
+                <option value="strongPass">Strong</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    <?PHP
     echo '
         <hr>
         <h2>New Item:</h2>
