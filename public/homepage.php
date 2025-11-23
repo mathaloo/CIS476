@@ -150,7 +150,7 @@
                 if ($obs->weakPassword()) {
                     $pswdObs[] = $obs;
                 }
-                // add condition for if reveal is true or not (check by site since it is unique)
+                // REVEAL CONDITION
                 if (in_array($site, $revealedLogins)) {
                     $pl = new ProxyLogin($rl, true);
                 }
@@ -240,8 +240,13 @@
                 if ($obs->expired()) {
                     $ccObs[] = $obs;
                 }
-                // add condition for if reveal is true or not (check by card num since it is unique)
-                $pcc = new ProxyCreditCard($rl, $itemID, false);
+                // REVEAL CONDITION
+                if (in_array($cn, $revealedCCs)) {
+                    $pcc = new ProxyCreditCard($rcc, $itemID, true);
+                }
+                else {
+                    $pcc = new ProxyCreditCard($rcc, $itemID, false);
+                }
 
                 echo '<tr>';   // start of table row
                 echo "{$pcc->display()}";
@@ -320,8 +325,13 @@
                 if ($obs->expired()) {
                     $idObs[] = $obs;
                 }
-                // add condition for if reveal is true or not (check by card num since it is unique)
-                $pid = new ProxyID($rl, $itemID, false);
+                // REVEAL CONDITION
+                if (in_array($cn, $revealedCCs)) {
+                    $pid = new ProxyID($ri, $itemID, true);
+                }
+                else {
+                    $pid = new ProxyID($ri, $itemID, false);
+                }
 
                 echo '<tr>';   // start of table row
                 echo "{$pid->display()}";
