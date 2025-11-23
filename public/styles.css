@@ -24,6 +24,9 @@ table{
     text-align: left;
     padding: 20px;
 }
+th {
+  padding-right: 10px;
+}
 #main{
   margin:10px;
   padding:20px;

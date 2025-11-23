@@ -90,7 +90,7 @@
     // DELETE DATA ITEM
     if (isset($_POST['delete'])) {
         if (isset($_POST['site'])) {
-            $conn->prepare("DELETE FROM login WHERE siteName=? AND u_User=?");
+            $stmt = $conn->prepare("DELETE FROM login WHERE siteName=? AND u_User=?");
             $stmt->execute([$_POST['site'], $u->getUsername()]);
         }
         if (isset($_POST['cardNum'])) {
@@ -122,50 +122,7 @@
         <div id="main">
             <h1>MyPass</h1><hr>
             <h2>Saved Items</h2>
-
-            <hr>
-            <h2>Generated Password:</h2>
         ';
-    //echo output of observer pattern here | TODO
-
-    //GENERATE PASSWORD AND DISPLAY
-    $passwordBuilder = new director();
-    $weakPass = new weakPassword();
-    $medPass = new medPassword();
-    $strongPass = new strongPassword();
-    if(empty($_POST['passType']) || !isset($_POST['passType']) || $_POST['passType'] == 'weakPass'){
-        echo $passwordBuilder->buildPassword($weakPass);
-    }else if($_POST['passType'] == 'medPass'){
-        echo $passwordBuilder->buildPassword($medPass);
-    }else if($_POST['passType'] == 'strongPass'){
-        echo $passwordBuilder->buildPassword($strongPass);
-    }
-    echo "<br><br>";
-    ?>
-        <form action="homepage.php" method="post">
-            <label for="passType">Password Strength:</label>
-            <select name="passType" id="passType">
-                <option value="weakPass">Weak</option>
-                <option value="medPass">Medium</option>
-                <option value="strongPass">Strong</option>
-            </select>
-            <input type="submit" value="Submit">
-        </form>
-    
-    <!-- OTHER DISPLAY -->
-    <?PHP
-    echo '
-        <hr>
-        <h2>New Item:</h2>
-            <a href="newLogin.php">Login</a><br>                          
-            <a href="newID.php">Identification Card</a><br>
-            <a href="newCC.php">Credit Card</a><br>  
-            <a href="newNote.php">Note</a><br>                             
-            <hr>
-            <a href="index.php">Logout</a>              
-        </div>
-    ';
-
     // INITIALIZE AND DISPLAY LOGINS
     $stmt = $conn->prepare("SELECT * FROM login WHERE u_User=?");
     $stmt->execute([$u->getUsername()]);
@@ -468,8 +425,7 @@
     foreach ($idObs as $o) {
         echo "{$o->display()}";
     }
-
-    // INITIALIZE AND DISPLAY SECURE NOTES
+  // INITIALIZE AND DISPLAY SECURE NOTES
     $stmt = $conn->prepare("SELECT * FROM Secure_Notes WHERE u_User=?");
     $stmt->execute([$u->getUsername()]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -496,7 +452,7 @@
                 // ACTION BUTTONS
                 echo'
                 <td>
-                    <form action="editID.php" method="post">
+                    <form action="editNote.php" method="post">
                         <input type="hidden" name="nName" value="' . $nm . '">
                         <input type="hidden" name="note" value="' . $nt . '">
                         <button type="submit" name="edit" value="true">Edit</button>
@@ -514,6 +470,50 @@
             echo '</tbody>
         </table>
         </div>';
+        echo'
+            <hr>
+            <h2>Generated Password:</h2>
+        ';
+    //echo output of observer pattern here | TODO
+
+    //GENERATE PASSWORD AND DISPLAY
+    $passwordBuilder = new director();
+    $weakPass = new weakPassword();
+    $medPass = new medPassword();
+    $strongPass = new strongPassword();
+    if(empty($_POST['passType']) || !isset($_POST['passType']) || $_POST['passType'] == 'weakPass'){
+        echo $passwordBuilder->buildPassword($weakPass);
+    }else if($_POST['passType'] == 'medPass'){
+        echo $passwordBuilder->buildPassword($medPass);
+    }else if($_POST['passType'] == 'strongPass'){
+        echo $passwordBuilder->buildPassword($strongPass);
+    }
+    echo "<br><br>";
+    ?>
+        <form action="homepage.php" method="post">
+            <label for="passType">Password Strength:</label>
+            <select name="passType" id="passType">
+                <option value="weakPass">Weak</option>
+                <option value="medPass">Medium</option>
+                <option value="strongPass">Strong</option>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
+    
+    <!-- OTHER DISPLAY -->
+    <?PHP
+    echo '
+        <hr>
+        <h2>New Item:</h2>
+            <a href="newLogin.php">Login</a><br>                          
+            <a href="newID.php">Identification Card</a><br>
+            <a href="newCC.php">Credit Card</a><br>  
+            <a href="newNote.php">Note</a><br>                             
+            <hr>
+            <a href="editMasterPassword.php">Edit Master Password</a><br>
+            <a href="index.php">Logout</a>              
+        </div>
+    ';
     ?>
 
     <!--

@@ -41,6 +41,23 @@
         $login->execute([$_SESSION['toUpdate'],$u->getUsername()]);
         $login = $conn->prepare("INSERT INTO Secure_Notes (noteName, note, u_User) VALUES (?,?,?)");
         $login->execute([$_POST['noteName'],$_POST['note'], $u->getUsername()]);
+    }else if($table == "masterPassword"){
+        if(
+            $_POST["masterPassword"] == $u->getPassword() &&
+            $_POST["newPassword"] == $_POST["rep_password"]
+        ){
+            $login = $conn->prepare("UPDATE user SET masterPassword=? WHERE username=?");
+            $login->execute([$_POST["newPassword"], $u->getUsername()]);  
+            header("location: index.php");
+            die();
+        }else{
+            echo '
+                <div id="main">
+                Master password was incorrect or password did not match.
+                <br>
+                <a href="homepage.php">click here to return to homepage</a>
+                </div>';
+        }
     }
     header("location: homepage.php");
     die();

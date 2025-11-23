@@ -50,18 +50,18 @@
             <input type="text" id="newUsername" name="newUsername" value=""><br>
 
             <label for="password">Password:</label>
-            <input type="newPassword" id="newPassword" name="newPassword" value=""><br>
+            <input type="password" id="newPassword" name="newPassword" value=""><br>
 
             <label for="rep_password">Repeat Password:</label>
-            <input type="rep_password" id="rep_password" name="rep_password" value=""><br>
+            <input type="password" id="rep_password" name="rep_password" value=""><br>
 
-            <label for="Security Question 1: ">Security Question 1:</label>
+            <label for="Security Question 1: ">First Pets Name:</label>
             <input type="text" id="answer1" name="answer1" value=""><br>
 
-            <label for="Security Question 2: ">Security Question 2:</label>
+            <label for="Security Question 2: ">Elementary School:</label>
             <input type="text" id="answer2" name="answer2" value=""><br>
 
-            <label for="Security Question 3: ">Security Question 3:</label>
+            <label for="Security Question 3: ">Mothers Maiden Name:</label>
             <input type="text" id="answer3" name="answer3" value=""><br>
 
             <input type="hidden" name="create" value="true">
