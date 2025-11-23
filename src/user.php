@@ -20,10 +20,10 @@ class User{
         }
         return self::$instance;
     }
-    public function getUsername(){
+    public function getUsername(): string {
         return $this->username;
     }
-    public function getPassword(){
+    public function getPassword(): string {
         return $this->password;
     }
     public function signIn() {
@@ -35,7 +35,7 @@ class User{
         } catch(PDOException $e) {
           echo "Connection failed: " . $e->getMessage();
         }
-         $login = $conn->prepare("SELECT * FROM user WHERE username=?");
+        $login = $conn->prepare("SELECT * FROM user WHERE username=?");
         if(!empty($_POST['username']) && !empty($_POST['password'])){
             $login->execute([htmlspecialchars($_POST['username'])]);
             $login = $login->fetch();    
