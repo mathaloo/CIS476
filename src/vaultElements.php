@@ -1,6 +1,26 @@
 <?php
 require_once 'observers.php';
 
+// SECURE NOTES CLASS (doesn't belong to Observer or Proxy Patterns)
+class SecureNote {
+    private $name;
+    private $note;
+
+    public function __construct($name, $note) {
+        $this->name = $name;
+        $this->note = $note;
+    }
+    public function display() {
+        echo 
+        "<td>
+            {$this->name}
+        </td>
+        <td>
+            {$this->note}
+        </td>";
+    }
+}
+
 // Abstract Proxy
 interface VaultInfo {
     public function display();
@@ -40,14 +60,12 @@ class RealLogin implements VaultInfo, InfoSubject {
     private $observer = array();
     private $password;
     private $username;
-    //private $sub;
     public $site;
     public $url;
 
     public function __construct($pw, $un, $site, $url) {
         $this->password = $pw;
         $this->username = $un;
-        //$this->sub = $sub;   // if the user does not want observer notifications for this item
         $this->site = $site;
         $this->url = $url;
     }
@@ -69,9 +87,6 @@ class RealLogin implements VaultInfo, InfoSubject {
     public function getPswd() {
         return $this->password;
     }
-    /*public function getSub() {
-        return $this->sub;
-    }*/
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
     }
@@ -127,7 +142,6 @@ class RealCreditCard implements VaultInfo, InfoSubject {
     private $observer = array();
     private $cardNum;
     private $cvv;
-    // private $sub;   // if the user does not want observer notifications for this item
     public $nameOnCard;
     public $expiration;
     public $zip;
@@ -136,7 +150,6 @@ class RealCreditCard implements VaultInfo, InfoSubject {
     public function __construct($cn, $cvv, $name, $exp, $zip, $id) {
         $this->cardNum = $cn;
         $this->cvv = $cvv;
-        // $this->sub = $sub;
         $this->nameOnCard = $name;
         $this->expiration = $exp;
         $this->zip = $zip;
@@ -163,9 +176,6 @@ class RealCreditCard implements VaultInfo, InfoSubject {
             {$this->zip}
         </td>";
     }
-    /*public function getSub() {
-        return $this->sub;
-    }*/
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
     }
@@ -214,7 +224,6 @@ class ProxyID implements VaultInfo {
 class RealID implements VaultInfo, InfoSubject {
     private $observer = array();
     private $idNum;
-    //private $sub;   // if the user does not want observer notifications for this item
     public $expiration;
     public $type;
     public $itemID;
@@ -222,7 +231,6 @@ class RealID implements VaultInfo, InfoSubject {
     public function __construct($id, $exp, $t, $num) {
         $this->idNum = $id;
         $this->expiration = $exp;
-        //$this->sub = $sub;
         $this->type = $t;
         $this->itemID = $num;
     }
@@ -241,9 +249,6 @@ class RealID implements VaultInfo, InfoSubject {
             {$this->expiration}
         </td>";
     }
-    /*public function getSub() {
-        return $this->sub;
-    }*/
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
     }

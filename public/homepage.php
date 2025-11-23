@@ -101,9 +101,9 @@
             $stmt = $conn->prepare("DELETE FROM Identification WHERE idNum=?");
             $stmt->execute([$_POST['idNum']]);
         }
-        if (isset($_POST['noteName'])) {
+        if (isset($_POST['nName'])) {
             $stmt = $conn->prepare("DELETE FROM Secure_Notes WHERE u_User=? AND noteName=?");
-            $stmt->execute([$u->getUsername(), $_POST['noteName']]);
+            $stmt->execute([$u->getUsername(), $_POST['nName']]);
         }
     }
 
@@ -247,7 +247,6 @@
                         <input type="hidden" name="pw" value="' . $pw . '">
                         <input type="hidden" name="site" value="' . $site . '">
                         <input type="hidden" name="url" value="' . $url . '">
-                        <input type="hidden" name="uname" value="' . $u->getUsername() . '">
                         <button type="submit" name="edit" value="true">Edit</button>
                     </form>
                 </td>
@@ -271,7 +270,7 @@
     $stmt->execute([$u->getUsername()]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $ccObs = array();  // for keeping track of weak passwords
+    $ccObs = array();  // for keeping track of expired items
 
     echo '  <div class="itemsList">
             <table>
@@ -352,7 +351,6 @@
                         <input type="hidden" name="name" value="' . $name . '">
                         <input type="hidden" name="exp" value="' . $exp . '">
                         <input type="hidden" name="zip" value="' . $zip . '">
-                        <input type="hidden" name="uname" value="' . $u->getUsername() . '">
                         <button type="submit" name="edit" value="true">Edit</button>
                     </form>
                 </td>
@@ -377,7 +375,7 @@
     $stmt->execute([$u->getUsername()]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $idObs = array();  // for keeping track of weak passwords
+    $idObs = array();  // for keeping track of expired items
 
     echo '<div class="itemslist">
             <table>
@@ -452,7 +450,6 @@
                         <input type="hidden" name="idNum" value="' . $id . '">
                         <input type="hidden" name="type" value="' . $t . '">
                         <input type="hidden" name="exp" value="' . $exp . '">
-                        <input type="hidden" name="uname" value="' . $u->getUsername() . '">
                         <button type="submit" name="edit" value="true">Edit</button>
                     </form>
                 </td>
@@ -473,6 +470,50 @@
     }
 
     // INITIALIZE AND DISPLAY SECURE NOTES
+    $stmt = $conn->prepare("SELECT * FROM Secure_Notes WHERE u_User=?");
+    $stmt->execute([$u->getUsername()]);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo '<div class="itemslist">
+            <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Note</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            <thead>
+            <tbody>';
+            foreach ($rows as $row) {
+                $nm =  $row['noteName'];
+                $nt =  $row['note'];
+
+                $sn = new SecureNote($nm, $nt);
+
+                echo '<tr>';   // start of table row
+                echo "{$sn->display()}";
+                // ACTION BUTTONS
+                echo'
+                <td>
+                    <form action="editID.php" method="post">
+                        <input type="hidden" name="nName" value="' . $nm . '">
+                        <input type="hidden" name="note" value="' . $nt . '">
+                        <button type="submit" name="edit" value="true">Edit</button>
+                    </form>
+                </td>
+                <td>
+                    <form action="homepage.php" method="post">
+                        <input type="hidden" name="nName" value="' . $nm . '">
+                        <button type="submit" name="delete" value="true">Delete</button>
+                    </form>
+                </td>
+                </tr>';  // end of table row
+                $itemID++;
+            }
+            echo '</tbody>
+        </table>
+        </div>';
     ?>
 
     <!--
