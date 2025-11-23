@@ -11,13 +11,13 @@
     session_start();
     error_reporting(E_ALL);
     ini_set('display_errors',1);
-    $_SESSION['toUpdate'] = $_POST['site'];
+    $_SESSION['toUpdate'] = $_POST['cardNum'];
     echo'
     <div id="main">
         <h1>MyPass</h1>
         <hr> 
-        <h2>New Credit Card:'.$_POST['cardNum'].'</h2>        
-        <form action="saveItem.php" method="post">
+        <h2>Update Credit Card:'.$_POST['cardNum'].'</h2>        
+        <form action="editSave.php" method="post">
             <input type="hidden" name="type" id="type" value="Credit_Card">
 
             <label for="">Card Number:</label>
