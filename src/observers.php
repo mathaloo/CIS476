@@ -38,8 +38,10 @@ class PswdObserver implements InfoObserver {
 
     public function display() {
         if ($this->type == "login"){
-            return "Weak password for website {$this->state->site}. 
-                    Password should be at least 10 characters and contain numbers or special characters." ;
+            return "<hr>
+                    WARNING: Weak password for website {$this->state->site}. 
+                    Password should be at least 10 characters and contain numbers or special characters.
+                    <hr>";
         }
     }
     public function update($subject, $t) {   // get newest expiration state and id to identify subject

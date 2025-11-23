@@ -1,12 +1,12 @@
 <?PHP
-interface buildPassword{
+interface BuildPassword{
     public function produceCharacters(): void;
     public function produceNumbers(): void;
     public function produceSymbols(): void;
     public function getPassword();
 }
 
-class weakPassword implements buildPassword{
+class weakPassword implements BuildPassword{
     private $result;
 
     public function __construct(){
@@ -39,7 +39,7 @@ class weakPassword implements buildPassword{
     }
 }
 
-class medPassword implements buildPassword{
+class medPassword implements BuildPassword{
     private $result;
 
     public function __construct(){
@@ -74,7 +74,7 @@ class medPassword implements buildPassword{
     }
 }
 
-class strongPassword implements buildPassword{
+class strongPassword implements BuildPassword{
     private $result;
 
     public function __construct(){

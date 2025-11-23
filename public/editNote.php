@@ -11,6 +11,7 @@
     session_start();
     error_reporting(E_ALL);
     ini_set('display_errors',1);
+    $_SESSION['toUpdate'] = $_POST["nName"];
     echo'
     <div id="main">
         <h1>MyPass</h1>
@@ -22,9 +23,9 @@
             <label for="">Note Name:</label>
             <input type="text" id="noteName" name="noteName" maxlength="10" value='.$_POST["nName"].'><br>
 
-             <label for="">Note:</label>
-            <input type="textarea" id="note" name="note" maxlength="1000" value='.$_POST["note"].'><br>
-          
+            <label for="">Note:</label>
+            <textarea id="note" name="note" maxlength="1000" value="">'.$_POST["note"].'</textarea>
+
             <input type="submit" value="Update New Secure Note"><br>        
         </form>
     </div>

@@ -22,8 +22,8 @@
             <label for="">Note Name:</label>
             <input type="text" id="noteName" name="noteName" maxlength="10" value=""><br>
 
-             <label for="">Note:</label>
-            <input type="textarea" id="note" name="note" maxlength="1000" value=""><br>
+            <label for="">Note:</label>
+            <textarea id="note" name="note" maxlength="1000" value=""></textarea>
           
             <input type="submit" value="Submit New Secure Note"><br>        
         </form>
