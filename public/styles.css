@@ -20,9 +20,9 @@ a:hover{
 table{
     margin-left: auto;
     margin-right: auto;
-    border-color: black;
+    border: black 2px solid;
     text-align: left;
-    padding: 30px;
+    padding: 20px;
 }
 #main{
   margin:10px;
@@ -35,4 +35,8 @@ table{
   border-radius: 10px;
   min-width: min(400px,100vw);
   height: auto;
+}
+.itemsList{
+  margin: 5px;
+  padding: 5px;
 }

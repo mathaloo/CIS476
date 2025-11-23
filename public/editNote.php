@@ -11,22 +11,24 @@
     session_start();
     error_reporting(E_ALL);
     ini_set('display_errors',1);
-    ?>
+    echo'
     <div id="main">
         <h1>MyPass</h1>
         <hr> 
-        <h2>New Secure Note:</h2>        
-        <form action="saveItem.php" method="post">
+        <h2>Update Secure Note:'.$_POST["a"].'</h2>        
+        <form action="editSave.php" method="post">
             <input type="hidden" name="type" id="type" value="Secure_Notes">
 
             <label for="">Note Name:</label>
-            <input type="text" id="noteName" name="noteName" maxlength="10" value=""><br>
+            <input type="text" id="noteName" name="noteName" maxlength="10" value='.$_POST["a"].'><br>
 
              <label for="">Note:</label>
-            <input type="textarea" id="note" name="note" maxlength="1000" value=""><br>
+            <input type="textarea" id="note" name="note" maxlength="1000" value='.$_POST[""].'><br>
           
-            <input type="submit" value="Submit New Secure Note"><br>        
+            <input type="submit" value="Update New Secure Note"><br>        
         </form>
     </div>
+    '
+    ?>
 </body>
 </html>

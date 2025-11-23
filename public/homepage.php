@@ -59,7 +59,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <?PHP
@@ -121,7 +121,8 @@
 
     $pswdObs = array();  // for keeping track of weak passwords
 
-    echo '<table>
+    echo '<div class="itemsList">
+            <table>
             <thead>
                 <tr>
                     <th>Website</th>
@@ -176,7 +177,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="#" method="post">
+                    <form action="editLogin.php" method="post">
                         <input type="hidden" name="siteUN" value="' . $un . '">
                         <input type="hidden" name="pw" value="' . $pw . '">
                         <input type="hidden" name="site" value="' . $site . '">
@@ -195,7 +196,8 @@
                 </tr>';  // end of table row
             }
             echo '</tbody>
-        </table>';
+        </table>
+        </div>';
     foreach ($pswdObs as $o) {   // get observer messages
         $o->display();
     }
@@ -207,7 +209,8 @@
 
     $ccObs = array();  // for keeping track of weak passwords
 
-    echo '<table>
+    echo '  <div class="itemsList">
+            <table>
             <thead>
                 <tr>
                     <th>Row#</th>
@@ -264,7 +267,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="#" method="post">
+                    <form action="editCC.php" method="post">
                         <input type="hidden" name="cardNum" value="' . $cn . '">
                         <input type="hidden" name="cvv" value="' . $cvv . '">
                         <input type="hidden" name="name" value="' . $name . '">
@@ -284,7 +287,8 @@
                 $itemID++;
             }
             echo '</tbody>
-        </table>';
+        </table>
+        </div>';
     foreach ($ccObs as $o) {
         $o->display();
     }
@@ -296,7 +300,8 @@
 
     $idObs = array();  // for keeping track of weak passwords
 
-    echo '<table>
+    echo '<div class="itemslist">
+            <table>
             <thead>
                 <tr>
                     <th>Row#</th>
@@ -349,7 +354,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="#" method="post">
+                    <form action="editID.php" method="post">
                         <input type="hidden" name="idNum" value="' . $id . '">
                         <input type="hidden" name="type" value="' . $t . '">
                         <input type="hidden" name="exp" value="' . $exp . '">
@@ -367,7 +372,8 @@
                 $itemID++;
             }
             echo '</tbody>
-        </table>';
+        </table>
+        </div>';
     foreach ($idObs as $o) {
         $o->display();
     }
