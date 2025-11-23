@@ -17,6 +17,9 @@
       echo "Connection failed: " . $e->getMessage();
     } 
 
+    // GETTING USER INFO
+    $u = User::getInstance();
+
     // For maintaining persistent data reveals for LOGINS
     if (!isset($_SESSION['revealedLogins'])) {
         $_SESSION['revealedLogins'] = array();
@@ -49,6 +52,58 @@
         else if ($_POST['reveal'] === "id") {   // reveal ids
             $revealedIDs[] = $_POST['idNum'];
             $_SESSION['revealedIDs'][] = $_POST['idNum'];
+        }
+    }
+
+    // SUBSCRIBE/UNSUB FROM OBSERVER NOTIFICATIONS
+    if (isset($_POST['sub'])) {
+        if ($_POST['sub'] === "unsub") {
+            if (isset($_POST['site'])) {
+                $stmt = $conn->prepare("UPDATE login SET notify=? WHERE siteName=? AND u_User=?");
+                $stmt->execute(['0', $_POST['site'], $u->getUsername()]);
+            }
+            if (isset($_POST['cardNum'])) {
+                $stmt = $conn->prepare("UPDATE Credit_Card SET notify=? WHERE cardNum=?");
+                $stmt->execute(['0', $_POST['cardNum']]);
+            }
+            if (isset($_POST['idNum'])) {
+                $stmt = $conn->prepare("UPDATE Identification SET notify=? WHERE idNum=?");
+                $stmt->execute(['0', $_POST['idNum']]);
+            }
+        }
+        if ($_POST['sub'] === "resub") {
+            if (isset($_POST['site'])) {
+                $stmt = $conn->prepare("UPDATE login SET notify=? WHERE siteName=? AND u_User=?");
+                $stmt->execute(['1', $_POST['site'], $u->getUsername()]);
+            }
+            if (isset($_POST['cardNum'])) {
+                $stmt = $conn->prepare("UPDATE Credit_Card SET notify=? WHERE cardNum=?");
+                $stmt->execute(['1', $_POST['cardNum']]);
+            }
+            if (isset($_POST['idNum'])) {
+                $stmt = $conn->prepare("UPDATE Identification SET notify=? WHERE idNum=?");
+                $stmt->execute(['1', $_POST['idNum']]);
+            }
+        }
+    }
+
+    // DELETE DATA ITEM
+    if (isset($_POST['delete'])) {
+        if (isset($_POST['site'])) {
+            $conn->prepare("DELETE FROM login WHERE siteName=? AND u_User=?");
+            $stmt->execute([$_POST['site'], $u->getUsername()]);
+        }
+        if (isset($_POST['cardNum'])) {
+            $stmt = $conn->prepare("DELETE FROM Credit_Card WHERE cardNum=?");
+            $stmt->execute([$_POST['cardNum']]);
+        }
+        if (isset($_POST['idNum'])) {
+            $stmt = $conn->prepare("DELETE FROM Identification WHERE idNum=?");
+            $stmt->execute([$_POST['idNum']]);
+        }
+        if (isset($_POST['noteName'])) {
+            $stmt = $conn->prepare("DELETE FROM Secure_Notes WHERE u_User=? AND noteName=?");
+            $stmt->execute([$u->getUsername(), $_POST['noteName']]);
         }
     }
 
@@ -110,9 +165,6 @@
             <a href="index.php">Logout</a>              
         </div>
     ';
-    
-    // GETTING USER INFO
-    $u = User::getInstance();
 
     // INITIALIZE AND DISPLAY LOGINS
     $stmt = $conn->prepare("SELECT * FROM login WHERE u_User=?");
@@ -141,16 +193,20 @@
                 $un =  $row['username'];
                 $site =  $row['siteName'];
                 $url =  $row['url'];
-                // need to add $sub = $row['sub'];   // for if user wants the item to be get observer notifications
+                $sub = $row['notify'];   // for if user wants the item to be get observer notifications
         
                 $rl = new RealLogin($pw, $un, $site, $url);
-                //add sub condition (does not make observer if not needed)
-                $obs = new PswdObserver();
-                $rl->regObs($obs);
-                $rl->notify();
-                if ($obs->weakPassword()) {
-                    $pswdObs[] = $obs;
+
+                // SUBSCRIBED TO NOTIFICATIONS LOGIC
+                if ($sub === '1') {   
+                    $obs = new PswdObserver();
+                    $rl->regObs($obs);
+                    $rl->notify();
+                    if ($obs->weakPassword()) {
+                        $pswdObs[] = $obs;
+                    }
                 }
+
                 // REVEAL CONDITION
                 if (in_array($site, $revealedLogins)) {
                     $pl = new ProxyLogin($rl, true);
@@ -159,23 +215,32 @@
                     $pl = new ProxyLogin($rl, false);
                 }
                 
-
                 echo '<tr>';   // start of table row
                 echo "{$pl->display()}";
-                // echo button forms here. get from notepad and put in a table column
+                // ACTION BUTTONS
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="site" value="' . $site . '">
                         <button type="submit" name="reveal" value="login">Unhide</button>
                     </form>
-                </td>
-                <td>
-                    <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $site . '">
-                        <input type="hidden" name="uname" value="' . $u->getUsername() . '">
-                        <button type="submit" name="sub" value="unsub">Unsub</button>
-                    </form>
-                </td>
+                </td>';
+                if ($sub === '1') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="site" value="' . $site . '">
+                            <button type="submit" name="sub" value="unsub">Unsub</button>
+                        </form>
+                    </td>';
+                }
+                else if ($sub === '0') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="site" value="' . $site . '">
+                            <button type="submit" name="sub" value="resub">Resub</button>
+                        </form>
+                    </td>';
+                }
+                echo'
                 <td>
                     <form action="editLogin.php" method="post">
                         <input type="hidden" name="siteUN" value="' . $un . '">
@@ -189,7 +254,6 @@
                 <td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="site" value="' . $site . '">
-                        <input type="hidden" name="uname" value="' . $u->getUsername() . '">
                         <button type="submit" name="delete" value="true">Delete</button>
                     </form>
                 </td>
@@ -199,7 +263,7 @@
         </table>
         </div>';
     foreach ($pswdObs as $o) {   // get observer messages
-        $o->display();
+        echo "{$o->display()}";
     }
 
     // INITIALIZE AND DISPLAY CREDIT CARDS
@@ -233,16 +297,20 @@
                 $name =  $row['nameOnCard'];
                 $exp =  $row['expiration'];
                 $zip =  $row['zip'];
-                // need to add $sub = $row['sub'];   // for if user wants the item to be get observer notifications
+                $sub = $row['notify'];   // for if user wants the item to be get observer notifications
         
                 $rcc = new RealCreditCard($cn, $cvv, $name, $exp, $zip, $itemID);
-                //add sub condition (does not make observer if not needed)
-                $obs = new ExpObserver();
-                $rcc->regObs($obs);
-                $rcc->notify();
-                if ($obs->expired()) {
-                    $ccObs[] = $obs;
+                
+                // SUBSCRIBED TO NOTIFICATIONS LOGIC
+                if ($sub === '1') {
+                    $obs = new ExpObserver();
+                    $rcc->regObs($obs);
+                    $rcc->notify();
+                    if ($obs->expired()) {
+                        $ccObs[] = $obs;
+                    }
                 }
+
                 // REVEAL CONDITION
                 if (in_array($cn, $revealedCCs)) {
                     $pcc = new ProxyCreditCard($rcc, $itemID, true);
@@ -253,19 +321,30 @@
 
                 echo '<tr>';   // start of table row
                 echo "{$pcc->display()}";
-                // echo button forms here. get from notepad and put in a table column
+                // ACTION BUTTONS
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="cardNum" value="' . $cn . '">
                         <button type="submit" name="reveal" value="cc">Unhide</button>
                     </form>
-                </td>
-                <td>
-                    <form action="homepage.php" method="post">
-                        <input type="hidden" name="cardNum" value="' . $cn . '">
-                        <button type="submit" name="sub" value="unsub">Unsub</button>
-                    </form>
-                </td>
+                </td>';
+                if ($sub === '1') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="cardNum" value="' . $cn . '">
+                            <button type="submit" name="sub" value="unsub">Unsub</button>
+                        </form>
+                    </td>';
+                }
+                else if ($sub === '0') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="cardNum" value="' . $cn . '">
+                            <button type="submit" name="sub" value="resub">Resub</button>
+                        </form>
+                    </td>';
+                }
+                echo'
                 <td>
                     <form action="editCC.php" method="post">
                         <input type="hidden" name="cardNum" value="' . $cn . '">
@@ -290,7 +369,7 @@
         </table>
         </div>';
     foreach ($ccObs as $o) {
-        $o->display();
+        echo "{$o->display()}";
     }
 
     // INITIALIZE AND DISPLAY IDs
@@ -320,18 +399,22 @@
                 $id =  $row['idNum'];
                 $t =  $row['type'];
                 $exp =  $row['expiration'];
-                // need to add $sub = $row['sub'];   // for if user wants the item to be get observer notifications
+                $sub = $row['notify'];   // for if user wants the item to be get observer notifications
         
                 $ri = new RealID($id, $exp, $t, $itemID);
-                //add sub condition (does not make observer if not needed)
-                $obs = new ExpObserver();
-                $ri->regObs($obs);
-                $ri->notify();
-                if ($obs->expired()) {
-                    $idObs[] = $obs;
+                
+                // SUBSCRIBED TO NOTIFICATIONS LOGIC
+                if ($sub === '1') {
+                    $obs = new ExpObserver();
+                    $ri->regObs($obs);
+                    $ri->notify();
+                    if ($obs->expired()) {
+                        $idObs[] = $obs;
+                    }
                 }
+
                 // REVEAL CONDITION
-                if (in_array($cn, $revealedCCs)) {
+                if (in_array($cn, $revealedIDs)) {
                     $pid = new ProxyID($ri, $itemID, true);
                 }
                 else {
@@ -340,19 +423,30 @@
 
                 echo '<tr>';   // start of table row
                 echo "{$pid->display()}";
-                // echo button forms here. get from notepad and put in a table column
+                // ACTION BUTTONS
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="idNum" value="' . $id . '">
                         <button type="submit" name="reveal" value="id">Unhide</button>
                     </form>
-                </td>
-                <td>
-                    <form action="homepage.php" method="post">
-                        <input type="hidden" name="idNum" value="' . $id . '">
-                        <button type="submit" name="sub" value="unsub">Unsub</button>
-                    </form>
-                </td>
+                </td>';
+                if ($sub === '1') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="idNum" value="' . $id . '">
+                            <button type="submit" name="sub" value="unsub">Unsub</button>
+                        </form>
+                    </td>';
+                }
+                else if ($sub === '0') {
+                    echo '<td>
+                        <form action="homepage.php" method="post">
+                            <input type="hidden" name="idNum" value="' . $id . '">
+                            <button type="submit" name="sub" value="resub">Resub</button>
+                        </form>
+                    </td>';
+                }
+                echo'
                 <td>
                     <form action="editID.php" method="post">
                         <input type="hidden" name="idNum" value="' . $id . '">
@@ -375,7 +469,7 @@
         </table>
         </div>';
     foreach ($idObs as $o) {
-        $o->display();
+        echo "{$o->display()}";
     }
 
     // INITIALIZE AND DISPLAY SECURE NOTES

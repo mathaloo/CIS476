@@ -25,7 +25,7 @@ class ExpObserver implements InfoObserver {
         $exp = new DateTime($this->state->expiration);
         $today = new DateTime();
 
-        if ($exp > $today) {
+        if ($exp < $today) {
             return true;
         }
         return false;
