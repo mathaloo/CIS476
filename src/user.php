@@ -1,6 +1,8 @@
 <?php
+require_once 'observers.php';
 
-class User{
+class User implements InfoSubject{
+    private $observer = array();
     private $username;
     private $password;
     private static $instance = null;
@@ -12,7 +14,6 @@ class User{
         }
     }
 
-    
     public static function getInstance(): User {
         if (self::$instance === null) {
             self::$instance = new self();
@@ -88,6 +89,17 @@ class User{
                 Username already exists or the Passwords did not match
                 <br>
                 </div>';
+        }
+    }
+    public function regObs(InfoObserver $o) {
+        $this->observer[] = $o;
+    }
+    public function removeObs(InfoObserver $o) {
+        // REMOVE?? 
+    }
+    public function notify() {
+        foreach ($this->observer as $o) {
+            $o->update($this, "login");
         }
     }
 }
