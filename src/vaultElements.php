@@ -12,7 +12,19 @@ class ProxyLogin implements VaultInfo {
 
     public function display() {
         if (!$this->reveal) {
-            // FIXME!!!
+            echo 
+            "<td>
+                {$this->loginInfo->site}
+            </td>
+            <td>
+                <i>hidden</i>
+            </td>
+            <td>
+                <i>hidden</i>
+            </td>
+            <td>
+                {$this->loginInfo->url}
+            </td>";
         }
         else {
             $this->loginInfo->display();
@@ -40,8 +52,19 @@ class RealLogin implements VaultInfo, InfoSubject {
         $this->url = $url;
     }
     public function display() {
-        // FIXME!!!
-        return "blank";
+        echo 
+        "<td>
+            {$this->site}
+        </td>
+        <td>
+            {$this->username}
+        </td>
+        <td>
+            {$this->password}
+        </td>
+        <td>
+            {$this->url}
+        </td>";
     }
     public function getPswd() {
         return $this->password;
@@ -69,7 +92,25 @@ class ProxyCreditCard implements VaultInfo {
 
     public function display() {
         if (!$this->reveal) {
-            // FIXME!!!
+            echo 
+            "<td>
+                {$this->itemID}
+            </td>
+            <td>
+                {$this->ccInfo->nameOnCard}
+            </td>
+            <td>
+                <i>hidden</i>
+            </td>
+            <td>
+                <i>hidden</i>
+            </td>
+            <td>
+                {$this->ccInfo->expiration}
+            </td>
+            <td>
+                {$this->ccInfo->zip}
+            </td>";
         }
         else {
             $this->ccInfo->display();
@@ -102,8 +143,25 @@ class RealCreditCard implements VaultInfo, InfoSubject {
         $this->itemID = $id;
     }
     public function display() {
-        // FIXME!!!
-        return "blank";
+        echo 
+        "<td>
+            {$this->itemID}
+        </td>
+        <td>
+            {$this->nameOnCard}
+        </td>
+        <td>
+            {$this->cardNum}
+        </td>
+        <td>
+            {$this->cvv}
+        </td>
+        <td>
+            {$this->expiration}
+        </td>
+        <td>
+            {$this->zip}
+        </td>";
     }
     /*public function getSub() {
         return $this->sub;
@@ -128,7 +186,19 @@ class ProxyID implements VaultInfo {
     
     public function display() {
         if (!$this->reveal) {
-            // FIXME!!!
+            echo 
+            "<td>
+                {$this->itemID}
+            </td>
+            <td>
+                <i>hidden</i>
+            </td>
+            <td>
+                {$this->idInfo->type}
+            </td>
+            <td>
+                {$this->idInfo->expiration}
+            </td>";
         }
         else {
             $this->idInfo->display();
@@ -157,8 +227,19 @@ class RealID implements VaultInfo, InfoSubject {
         $this->itemID = $num;
     }
     public function display() {
-        // FIXME!!!
-        return "blank";
+        echo 
+        "<td>
+            {$this->itemID}
+        </td>
+        <td>
+            {$this->idNum}
+        </td>
+        <td>
+            {$this->type}
+        </td>
+        <td>
+            {$this->expiration}
+        </td>";
     }
     /*public function getSub() {
         return $this->sub;

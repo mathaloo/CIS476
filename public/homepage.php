@@ -17,12 +17,40 @@
       echo "Connection failed: " . $e->getMessage();
     } 
 
+    // For maintaining persistent data reveals for LOGINS
     if (!isset($_SESSION['revealedLogins'])) {
         $_SESSION['revealedLogins'] = array();
     }
     $revealedLogins = $_SESSION['revealedLogins'];
 
-    // ACTIONS TAKE PLACE (edit, delete, unsub saved through post methods)
+    // For maintaining persistent data reveals for CREDIT CARDS
+    if (!isset($_SESSION['revealedCCs'])) {
+        $_SESSION['revealedCCs'] = array();
+    }
+    $revealedCCs = $_SESSION['revealedCCs'];
+
+    // For maintaining persistent data reveals for IDENTIFICATIONS
+    if (!isset($_SESSION['revealedIDs'])) {
+        $_SESSION['revealedIDs'] = array();
+    }
+    $revealedIDs = $_SESSION['revealedIDs'];
+
+    // ACTIONS TAKE PLACE (reveal is session based; delete, unsub saved through post methods)
+    // REVEAL DATA ITEMS
+    if (isset($_POST['reveal'])) {   // reveal logins
+        if ($_POST['reveal'] === "login") {
+            $revealedLogins[] = $_POST['site'];
+            $_SESSION['revealedLogins'][] = $_POST['site'];
+        }
+        else if ($_POST['reveal'] === "cc") {   //reveal credit cards
+            $revealedCCs[] = $_POST['cardNum'];
+            $_SESSION['revealedCCs'][] = $_POST['cardNum'];
+        }
+        else if ($_POST['reveal'] === "id") {   // reveal ids
+            $revealedIDs[] = $_POST['idNum'];
+            $_SESSION['revealedIDs'][] = $_POST['idNum'];
+        }
+    }
 
 ?>
 <!DOCTYPE html>
@@ -123,7 +151,13 @@
                     $pswdObs[] = $obs;
                 }
                 // add condition for if reveal is true or not (check by site since it is unique)
-                $pl = new ProxyLogin($rl, false);
+                if (in_array($site, $revealedLogins)) {
+                    $pl = new ProxyLogin($rl, true);
+                }
+                else {
+                    $pl = new ProxyLogin($rl, false);
+                }
+                
 
                 echo '<tr>';   // start of table row
                 echo "{$pl->display()}";
@@ -131,7 +165,7 @@
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="site" value="' . $site . '">
-                        <button type="submit" name="reveal" value="true">Unhide</button>
+                        <button type="submit" name="reveal" value="login">Unhide</button>
                     </form>
                 </td>
                 <td>
@@ -180,8 +214,8 @@
                     <th>Card Holder</th>
                     <th>Card Number</th>
                     <th>CVV</th>
-                    <th>Type</th>
                     <th>Expiration Date</th>
+                    <th>Zip</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -214,13 +248,13 @@
                 // echo button forms here. get from notepad and put in a table column
                 echo '<td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $cn . '">
-                        <button type="submit" name="reveal" value="true">Unhide</button>
+                        <input type="hidden" name="cardNum" value="' . $cn . '">
+                        <button type="submit" name="reveal" value="cc">Unhide</button>
                     </form>
                 </td>
                 <td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $cn . '">
+                        <input type="hidden" name="cardNum" value="' . $cn . '">
                         <button type="submit" name="sub" value="unsub">Unsub</button>
                     </form>
                 </td>
@@ -237,7 +271,7 @@
                 </td>
                 <td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $cn . '">
+                        <input type="hidden" name="cardNum" value="' . $cn . '">
                         <button type="submit" name="delete" value="true">Delete</button>
                     </form>
                 </td>
@@ -294,28 +328,28 @@
                 // echo button forms here. get from notepad and put in a table column
                 echo '<td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $id . '">
-                        <button type="submit" name="reveal" value="true">Unhide</button>
+                        <input type="hidden" name="idNum" value="' . $id . '">
+                        <button type="submit" name="reveal" value="id">Unhide</button>
                     </form>
                 </td>
                 <td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $id . '">
+                        <input type="hidden" name="idNum" value="' . $id . '">
                         <button type="submit" name="sub" value="unsub">Unsub</button>
                     </form>
                 </td>
                 <td>
                     <form action="#" method="post">
-                        <input type="hidden" name="cardNum" value="' . $id . '">
-                        <input type="hidden" name="cvv" value="' . $t . '">
-                        <input type="hidden" name="name" value="' . $exp . '">
+                        <input type="hidden" name="idNum" value="' . $id . '">
+                        <input type="hidden" name="type" value="' . $t . '">
+                        <input type="hidden" name="exp" value="' . $exp . '">
                         <input type="hidden" name="uname" value="' . $u->getUsername() . '">
                         <button type="submit" name="edit" value="true">Edit</button>
                     </form>
                 </td>
                 <td>
                     <form action="homepage.php" method="post">
-                        <input type="hidden" name="site" value="' . $id . '">
+                        <input type="hidden" name="idNum" value="' . $id . '">
                         <button type="submit" name="delete" value="true">Delete</button>
                     </form>
                 </td>

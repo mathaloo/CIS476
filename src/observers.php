@@ -46,7 +46,7 @@ class PswdObserver implements InfoObserver {
         $this->state = $subject;
         $this->type = $t;
     }
-    public function weakPassword() {   // determines if subject has expired data
+    public function weakPassword() {   // determines if subject has a weak password
         if (strlen($this->state->getPswd()) > 10) {
             $hasLetter = preg_match('/[a-zA-Z]/', $this->state->getPswd());
             $hasNum = preg_match('/\d/', $this->state->getPswd());
