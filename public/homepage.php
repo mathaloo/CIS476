@@ -15,7 +15,6 @@
     } catch(PDOException $e) {
       echo "Connection failed: " . $e->getMessage();
     } 
-    print_r($_POST);
 
     // GETTING USER INFO
     $u = User::getInstance();
