@@ -16,8 +16,10 @@
       echo "Connection failed: " . $e->getMessage();
     } 
     print_r($_POST);
+
     // GETTING USER INFO
     $u = User::getInstance();
+
     // For maintaining persistent data reveals for LOGINS
     if (!isset($_SESSION['revealedLogins'])) {
         $_SESSION['revealedLogins'] = array();
@@ -134,7 +136,16 @@
     <?PHP
     echo '
         <div id="main">
-            <h1>MyPass</h1><hr>
+            <h1>MyPass</h1><hr>';
+            if ($u->subbed) {   // Gives password notification if user is subbed
+                $userObs = new PswdObserver;
+                $u->regObs($userObs);
+                $u->notify();
+                if ($userObs->weakPassword()) {
+                    echo "{$userObs->display()}";
+                }
+            }
+            echo '
             <h2>Saved Items</h2>
         ';
     // INITIALIZE AND DISPLAY LOGINS

@@ -28,20 +28,16 @@
     $subbed = $u->subbed;
     if (isset($_POST['sub'])) {
         if ($_POST['sub'] === "unsub") {
-            /*update db
             $stmt = $conn->prepare("UPDATE user SET notify=? WHERE username=?");
             $stmt->execute(['0', $u->getUsername()]);
-            */
             $subbed = false;
-            $_SESSION['notify'] = $subbed;
+            $_SESSION['notify'] = '0';   // needs to be same format as what it read from db
         }
         if ($_POST['sub'] === "resub") {
-            /*update db
             $stmt = $conn->prepare("UPDATE user SET notify=? WHERE username=?");
             $stmt->execute(['1', $u->getUsername()]);
-            */
             $subbed = true;
-            $_SESSION['notify'] = $subbed;
+            $_SESSION['notify'] = '1';   // needs to be same format as what it read from db
         }
     }
 
@@ -65,22 +61,18 @@
             <input type="password" id="rep_password" name="rep_password" value=""><br>
             
             <input type="submit" value="Update"><br>
-
-            ';
-            if ($subbed) {
-                echo '<form action="editMasterPassword.php" method="post">
-                    <button type="submit" name="sub" value="unsub">Unsub</button>
-                </form>
-                ';
-            }
-            else {
-                echo '<form action="editMasterPassword.php" method="post">
-                    <button type="submit" name="sub" value="resub">Resub</button>
-                </form>
-                ';
-            }
-            echo'
-        </form>
+        </form>';
+        if ($subbed) {
+            echo '<form action="editMasterPassword.php" method="post">
+                <button type="submit" name="sub" value="unsub">Unsub</button>
+            </form>';
+        }
+        else {
+            echo '<form action="editMasterPassword.php" method="post">
+                <button type="submit" name="sub" value="resub">Resub</button>
+            </form>';
+        }
+        echo'
     </div>
     '
     ?>

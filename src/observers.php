@@ -44,7 +44,7 @@ class PswdObserver implements InfoObserver {
                     <hr>";
         }
         else if ($this->type == "user") {
-            return "<hr>
+            return "
                     WARNING: Weak master password for user. 
                     Password should be at least 10 characters and contain numbers or special characters.
                     <hr>";
@@ -55,10 +55,10 @@ class PswdObserver implements InfoObserver {
         $this->type = $t;
     }
     public function weakPassword() {   // determines if subject has a weak password
-        if (strlen($this->state->getPswd()) > 10) {
-            $hasLetter = preg_match('/[a-zA-Z]/', $this->state->getPswd());
-            $hasNum = preg_match('/\d/', $this->state->getPswd());
-            $hasSpecChar = preg_match('/[^a-zA-Z0-9]/', $this->state->getPswd());
+        if (strlen($this->state->getPassword()) > 10) {
+            $hasLetter = preg_match('/[a-zA-Z]/', $this->state->getPassword());
+            $hasNum = preg_match('/\d/', $this->state->getPassword());
+            $hasSpecChar = preg_match('/[^a-zA-Z0-9]/', $this->state->getPassword());
 
             if ($hasLetter && $hasNum) {
                 return false;

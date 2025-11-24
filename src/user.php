@@ -12,8 +12,12 @@ class User implements InfoSubject{
         if (!empty($_SESSION['username']) && !empty($_SESSION['password'])  && isset($_SESSION['notify']))  {
             $this->username = $_SESSION['username'];
             $this->password = $_SESSION['password'];
-            $this->subbed = $_SESSION['notify'];
-
+            if ($_SESSION['notify'] === '1') {
+                $this->subbed = true;
+            }
+            else if ($_SESSION['notify'] === '0') {
+                $this->subbed = false;
+            }
         }
     }
 
@@ -104,7 +108,7 @@ class User implements InfoSubject{
     }
     public function notify() {
         foreach ($this->observer as $o) {
-            $o->update($this, "login");
+            $o->update($this, "user");
         }
     }
 }

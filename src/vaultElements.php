@@ -84,7 +84,7 @@ class RealLogin implements VaultInfo, InfoSubject {
             {$this->url}
         </td>";
     }
-    public function getPswd() {
+    public function getPassword() {
         return $this->password;
     }
     public function regObs(InfoObserver $o) {
