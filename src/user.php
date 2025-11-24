@@ -13,6 +13,7 @@ class User implements InfoSubject{
             $this->username = $_SESSION['username'];
             $this->password = $_SESSION['password'];
             $this->subbed = $_SESSION['notify'];
+
         }
     }
 

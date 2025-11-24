@@ -15,10 +15,9 @@
     } catch(PDOException $e) {
       echo "Connection failed: " . $e->getMessage();
     } 
-
+    print_r($_POST);
     // GETTING USER INFO
     $u = User::getInstance();
-
     // For maintaining persistent data reveals for LOGINS
     if (!isset($_SESSION['revealedLogins'])) {
         $_SESSION['revealedLogins'] = array();
