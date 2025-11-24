@@ -90,9 +90,6 @@ class RealLogin implements VaultInfo, InfoSubject {
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
     }
-    public function removeObs(InfoObserver $o) {
-        // REMOVE?? 
-    }
     public function notify() {
         foreach ($this->observer as $o) {
             $o->update($this, "login");
@@ -179,9 +176,6 @@ class RealCreditCard implements VaultInfo, InfoSubject {
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
     }
-    public function removeObs(InfoObserver $o) {
-        // REMOVE?? 
-    }
     public function notify() {
         foreach ($this->observer as $o) {
             $o->update($this, "login");
@@ -251,9 +245,6 @@ class RealID implements VaultInfo, InfoSubject {
     }
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
-    }
-    public function removeObs(InfoObserver $o) {
-        // REMOVE?? 
     }
     public function notify() {
         foreach ($this->observer as $o) {

@@ -1,7 +1,8 @@
 <?php
 interface InfoSubject {    // Interface for our Subject objects (defined in vaultElements.php)
     public function regObs(InfoObserver $o);
-    public function removeObs(InfoObserver $o);
+    // Not using remove observers since each page does not persist (added based on db notify value)
+    // Each request to the server resets the values
     public function notify();
 }
 

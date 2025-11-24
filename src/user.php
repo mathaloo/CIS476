@@ -5,8 +5,8 @@ class User implements InfoSubject{
     private $observer = array();
     private $username;
     private $password;
-    public $subbed;
     private static $instance = null;
+    public $subbed;
 
     private function __construct() {
         if (!empty($_SESSION['username']) && !empty($_SESSION['password'])  && isset($_SESSION['notify']))  {
@@ -102,9 +102,6 @@ class User implements InfoSubject{
     }
     public function regObs(InfoObserver $o) {
         $this->observer[] = $o;
-    }
-    public function removeObs(InfoObserver $o) {
-        // REMOVE?? 
     }
     public function notify() {
         foreach ($this->observer as $o) {
