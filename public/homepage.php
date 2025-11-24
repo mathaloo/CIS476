@@ -6,6 +6,13 @@
     error_reporting(E_ALL);
     ini_set('display_errors',1);
 
+    if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 600) {
+     session_unset(); // unset $_SESSION variable 
+     session_destroy(); // destroy session data in storage
+     header("Location: index.php"); // redirect to login page
+    }
+    $_SESSION['last_activity'] = time(); // update last activity time stamp
+
     // Create connection to database
     try {
       $conn = new PDO("sqlite:../myPass.db");
