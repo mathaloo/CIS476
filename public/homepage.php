@@ -54,6 +54,22 @@
         }
     }
 
+    // HIDE ALL DATA ITEMS (of a certain type)
+    if (isset($_POST['hide'])) {   // reveal logins
+        if ($_POST['hide'] === "login") {
+            unset($revealedLogins);
+            unset($_SESSION['revealedLogins']);
+        }
+        else if ($_POST['hide'] === "cc") {   //reveal credit cards
+            unset($revealedCCs);
+            unset($_SESSION['revealedCCs']);
+        }
+        else if ($_POST['hide'] === "id") {   // reveal ids
+            unset($revealedIDs);
+            unset($_SESSION['revealedIDs']);
+        }
+    }
+
     // SUBSCRIBE/UNSUB FROM OBSERVER NOTIFICATIONS
     if (isset($_POST['sub'])) {
         if ($_POST['sub'] === "unsub") {
@@ -164,7 +180,7 @@
                 }
 
                 // REVEAL CONDITION
-                if (in_array($site, $revealedLogins)) {
+                if (isset($revealedLogins) && in_array($site, $revealedLogins)) {
                     $pl = new ProxyLogin($rl, true);
                 }
                 else {
@@ -177,7 +193,7 @@
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="site" value="' . $site . '">
-                        <button type="submit" name="reveal" value="login">Unhide</button>
+                        <button type="submit" name="reveal" value="login">View Hidden</button>
                     </form>
                 </td>';
                 if ($sub === '1') {
@@ -215,6 +231,9 @@
                 </tr>';  // end of table row
             }
             echo '</tbody>
+            <form action="homepage.php" method="post">
+                <button type="submit" name="hide" value="login">Hide All</button>
+            </form>
         </table>
         </div>';
     foreach ($pswdObs as $o) {   // get observer messages
@@ -267,7 +286,7 @@
                 }
 
                 // REVEAL CONDITION
-                if (in_array($cn, $revealedCCs)) {
+                if (isset($revealedCCs) && in_array($cn, $revealedCCs)) {
                     $pcc = new ProxyCreditCard($rcc, $itemID, true);
                 }
                 else {
@@ -280,7 +299,7 @@
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="cardNum" value="' . $cn . '">
-                        <button type="submit" name="reveal" value="cc">Unhide</button>
+                        <button type="submit" name="reveal" value="cc">View Hidden</button>
                     </form>
                 </td>';
                 if ($sub === '1') {
@@ -319,7 +338,11 @@
                 </tr>';  // end of table row
                 $itemID++;
             }
+            
             echo '</tbody>
+            <form action="homepage.php" method="post">
+                <button type="submit" name="hide" value="cc">Hide All</button>
+            </form>
         </table>
         </div>';
     foreach ($ccObs as $o) {
@@ -368,7 +391,7 @@
                 }
 
                 // REVEAL CONDITION
-                if (in_array($cn, $revealedIDs)) {
+                if (isset($revealedIDs) && in_array($id, $revealedIDs)) {
                     $pid = new ProxyID($ri, $itemID, true);
                 }
                 else {
@@ -381,7 +404,7 @@
                 echo '<td>
                     <form action="homepage.php" method="post">
                         <input type="hidden" name="idNum" value="' . $id . '">
-                        <button type="submit" name="reveal" value="id">Unhide</button>
+                        <button type="submit" name="reveal" value="id">View Hidden</button>
                     </form>
                 </td>';
                 if ($sub === '1') {
@@ -419,12 +442,16 @@
                 $itemID++;
             }
             echo '</tbody>
+            <form action="homepage.php" method="post">
+                <button type="submit" name="hide" value="id">Hide All</button>
+            </form>
         </table>
         </div>';
     foreach ($idObs as $o) {
         echo "{$o->display()}";
     }
-  // INITIALIZE AND DISPLAY SECURE NOTES
+
+    // INITIALIZE AND DISPLAY SECURE NOTES
     $stmt = $conn->prepare("SELECT * FROM Secure_Notes WHERE u_User=?");
     $stmt->execute([$u->getUsername()]);
     $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);

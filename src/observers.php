@@ -15,7 +15,7 @@ class ExpObserver implements InfoObserver {
     private $type;
     //private $type;
     public function display() {
-        return "Item {$this->state->itemID} is expired";
+        return "<hr>WARNING: Item {$this->state->itemID} is expired<hr>";
     }
     public function update($subject, $t) {   // get newest expiration state and id to identify subject
         $this->state = $subject;
@@ -40,6 +40,12 @@ class PswdObserver implements InfoObserver {
         if ($this->type == "login"){
             return "<hr>
                     WARNING: Weak password for website {$this->state->site}. 
+                    Password should be at least 10 characters and contain numbers or special characters.
+                    <hr>";
+        }
+        else if ($this->type == "user") {
+            return "<hr>
+                    WARNING: Weak master password for user. 
                     Password should be at least 10 characters and contain numbers or special characters.
                     <hr>";
         }

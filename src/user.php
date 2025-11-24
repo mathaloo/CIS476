@@ -5,12 +5,14 @@ class User implements InfoSubject{
     private $observer = array();
     private $username;
     private $password;
+    public $subbed;
     private static $instance = null;
 
     private function __construct() {
-        if (!empty($_SESSION['username']) && !empty($_SESSION['password']))  {
+        if (!empty($_SESSION['username']) && !empty($_SESSION['password']) && !empty($_SESSION['notify']))  {
             $this->username = $_SESSION['username'];
             $this->password = $_SESSION['password'];
+            $this->subbed = $_SESSION['notify'];
         }
     }
 
@@ -45,6 +47,7 @@ class User implements InfoSubject{
                 //assign variables | singleton implmentation
                 $_SESSION['username'] = $_POST['username'];
                 $_SESSION['password'] = $_POST['password'];
+                $_SESSION['notify'] = $login['notify'];
                 header("location: homepage.php");
                 exit();
             } 
