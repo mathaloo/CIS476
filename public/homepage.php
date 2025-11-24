@@ -58,14 +58,10 @@
     // HIDE ALL DATA ITEMS (of a certain type)
     if (isset($_POST['hide'])) {   // reveal logins
         if ($_POST['hide'] === "login") {
-            unset($revealedLogins);
-            unset($_SESSION['revealedLogins']);
-        }
-        else if ($_POST['hide'] === "cc") {   //reveal credit cards
             unset($revealedCCs);
             unset($_SESSION['revealedCCs']);
-        }
-        else if ($_POST['hide'] === "id") {   // reveal ids
+            unset($revealedLogins);
+            unset($_SESSION['revealedLogins']);
             unset($revealedIDs);
             unset($_SESSION['revealedIDs']);
         }
@@ -147,6 +143,9 @@
             }
             echo '
             <h2>Saved Items</h2>
+            <form action="homepage.php" method="post">
+                <button type="submit" name="hide" value="login">Hide All</button>
+            </form>
         ';
     // INITIALIZE AND DISPLAY LOGINS
     $stmt = $conn->prepare("SELECT * FROM login WHERE u_User=?");
@@ -241,9 +240,6 @@
                 </tr>';  // end of table row
             }
             echo '</tbody>
-            <form action="homepage.php" method="post">
-                <button type="submit" name="hide" value="login">Hide All</button>
-            </form>
         </table>
         </div>';
     foreach ($pswdObs as $o) {   // get observer messages
@@ -350,9 +346,6 @@
             }
             
             echo '</tbody>
-            <form action="homepage.php" method="post">
-                <button type="submit" name="hide" value="cc">Hide All</button>
-            </form>
         </table>
         </div>';
     foreach ($ccObs as $o) {
@@ -452,9 +445,6 @@
                 $itemID++;
             }
             echo '</tbody>
-            <form action="homepage.php" method="post">
-                <button type="submit" name="hide" value="id">Hide All</button>
-            </form>
         </table>
         </div>';
     foreach ($idObs as $o) {
