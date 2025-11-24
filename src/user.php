@@ -9,7 +9,7 @@ class User implements InfoSubject{
     private static $instance = null;
 
     private function __construct() {
-        if (!empty($_SESSION['username']) && !empty($_SESSION['password']) && !empty($_SESSION['notify']))  {
+        if (!empty($_SESSION['username']) && !empty($_SESSION['password'])  && isset($_SESSION['notify']))  {
             $this->username = $_SESSION['username'];
             $this->password = $_SESSION['password'];
             $this->subbed = $_SESSION['notify'];
@@ -48,6 +48,7 @@ class User implements InfoSubject{
                 $_SESSION['username'] = $_POST['username'];
                 $_SESSION['password'] = $_POST['password'];
                 $_SESSION['notify'] = $login['notify'];
+                echo
                 header("location: homepage.php");
                 exit();
             } 
