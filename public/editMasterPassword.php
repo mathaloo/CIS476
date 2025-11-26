@@ -59,13 +59,13 @@
             <input type="hidden" name="type" id="type" value="masterPassword">
 
             <label for="">Current Master Password:</label>
-            <input type="password" id="masterPassword" name="masterPassword" maxlength="30" value=""><br>
+            <input type="password" id="masterPassword" name="masterPassword" maxlength="32" value=""><br>
 
             <label for="password">Password:</label>
-            <input type="password" id="newPassword" name="newPassword" value=""><br>
+            <input type="password" id="newPassword" name="newPassword" maxlength="32" value=""><br>
 
             <label for="rep_password">Repeat Password:</label>
-            <input type="password" id="rep_password" name="rep_password" value=""><br>
+            <input type="password" id="rep_password" name="rep_password" maxlength="32" value=""><br>
             
             <input type="submit" value="Update"><br>
         </form>';
