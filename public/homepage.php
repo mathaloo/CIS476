@@ -548,25 +548,6 @@
     ';
     ?>
 
-    <!--
-    example of php class structure:
-        class className{
-            public $temp;
-            function set_temp($temp2) {
-              $this->temp = $temp2;
-            }
-            function get_temp() {
-                return $this->temp;
-            }
-        }
-
-    how to make a query and get a row:
-        $user = $conn->query("SELECT * FROM login WHERE u_User")->fetch();
-    how to get a specific column in a row:
-        $pass = $user['masterPassword'];
-    How to make query's in PHP:
-    https://www.w3schools.com/php/php_mysql_connect.asp 
-    -->
 </body>
 </html>
 
