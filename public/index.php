@@ -34,10 +34,10 @@
         <h2>Login:</h2>
         <form action="index.php" method="post">           
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value=""><br>
+            <input type="text" id="username" name="username" maxlength="12" value=""><br>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" value=""><br>
+            <input type="password" id="password" name="password" maxlength="32" value=""><br>
 
             <input type="hidden" name="signin" value="true">
 
@@ -47,22 +47,22 @@
         <h2>Create New Account:</h2>
         <form action="index.php" method="post">
             <label for="username">Username:</label>
-            <input type="text" id="newUsername" name="newUsername" value=""><br>
+            <input type="text" id="newUsername" name="newUsername" maxlength="12" value=""><br>
 
             <label for="password">Password:</label>
-            <input type="password" id="newPassword" name="newPassword" value=""><br>
+            <input type="password" id="newPassword" name="newPassword" maxlength="32" value=""><br>
 
             <label for="rep_password">Repeat Password:</label>
-            <input type="password" id="rep_password" name="rep_password" value=""><br>
+            <input type="password" id="rep_password" name="rep_password" maxlength="32" value=""><br>
 
             <label for="Security Question 1: ">First Pets Name:</label>
-            <input type="text" id="answer1" name="answer1" value=""><br>
+            <input type="text" id="answer1" name="answer1" maxlength="30" value=""><br>
 
             <label for="Security Question 2: ">Elementary School:</label>
-            <input type="text" id="answer2" name="answer2" value=""><br>
+            <input type="text" id="answer2" name="answer2" maxlength="30" value=""><br>
 
             <label for="Security Question 3: ">Mothers Maiden Name:</label>
-            <input type="text" id="answer3" name="answer3" value=""><br>
+            <input type="text" id="answer3" name="answer3" maxlength="30" value=""><br>
 
             <input type="hidden" name="create" value="true">
 
