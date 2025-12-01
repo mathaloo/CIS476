@@ -14,7 +14,6 @@ interface InfoObserver {
 class ExpObserver implements InfoObserver {
     private $state;
     private $type;
-    //private $type;
     public function display() {
         return "<hr>WARNING: Item {$this->state->itemID} is expired<hr>";
     }
