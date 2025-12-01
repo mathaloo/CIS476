@@ -1,1 +1,2 @@
-Verified to work on all versions of **Xampp**, no matter what OS or configuration.
+Verified to work on all versions of **Xampp**, no matter what OS or configuration. (Run on Apache server from htdocs folder in XAMPP local folder)
+Note - Error in the UML class diagram for Observer pattern was noticed and corrected after the presentation was recorded. It has been updated in the report and the slides. The expiration string in ExpObserver and the password string in PswdObserver have both been updated to the state InfoSubject attribute instead.
