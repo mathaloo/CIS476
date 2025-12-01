@@ -10,7 +10,7 @@
     <?PHP
     error_reporting(E_ALL);
     // We get a warning when set to 1 and user doesnt exist, but functionality remains the same. Turn to 0 before turn in
-    ini_set('display_errors',1);
+    ini_set('display_errors',0);
     interface ForgotPasswordHandler{
         public function checkSQ($username, $SQA):string;
     }

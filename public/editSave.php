@@ -9,7 +9,7 @@
     <?PHP
     session_start();
     error_reporting(E_ALL);
-    ini_set('display_errors',1);
+    ini_set('display_errors',0);
     $table = htmlspecialchars($_POST['type']);
     include '../src/user.php';
     $u = User::getInstance();

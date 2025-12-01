@@ -4,7 +4,7 @@
     require '../src/vaultElements.php';
     require '../src/pswdGenerator.php';
     error_reporting(E_ALL);
-    ini_set('display_errors',1);
+    ini_set('display_errors',0);
 
     if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 600) {
      session_unset(); // unset $_SESSION variable 

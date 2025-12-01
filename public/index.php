@@ -11,7 +11,7 @@
         session_start();
         error_reporting(E_ALL);
         // We get a warning when set to 1, but functionality remains the same. Turn to 0 before turn in
-        ini_set('display_errors',1);
+        ini_set('display_errors',0);
         session_unset();
         session_destroy();
         session_start();
